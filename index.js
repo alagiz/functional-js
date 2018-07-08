@@ -5,7 +5,7 @@ const band = {
   name: 'da best band',
   members: {
     current: [{
-      name: 'wee biscuit mcgee',
+      name: 'wee biscuit mcglee',
       plays: ['harmonica']
     }, {
       name: 'johnny deep',
@@ -24,17 +24,31 @@ const band = {
   }
 }
 
-const makeUpper = a => a.toUpperCase();
-const name = r.lensProp('name');
-const currentMembers = r.lensPath(['members', 'current'])
-const previousMembers = r.lensPath(['members', 'past'])
-const upperCurrentMemberNames = r.over(currentMembers, r.map(r.over(name, makeUpper)))
-const omitPreviousMembersPlays = r.over(previousMembers, r.map(r.omit('plays')))
+// we'd very much like to separate behavior and data
+// defining behavior:
+const makeUpperCase = a => a.toUpperCase()
+const omitProperty = (lens, propName) => r.over(lens, r.map(r.omit(propName)))
+const applyFunctionToProperty = (lens, lensProp, func) => r.over(lens, r.map(r.over(lensProp, func)))
+const concatLenses = (target, src) => data => r.over(target, r.concat(r.view(src, data)))(data)
 
-const mods = [
-	upperCurrentMemberNames,
-	omitPreviousMembersPlays
+const name = r.lensProp('name')
+const currentMembers = r.lensPath(['members', 'current'])
+const pastMembers = r.lensPath(['members', 'past'])
+const allMembers = r.lensPath(['members', 'all'])
+const upperCaseCurrentMemberNames = applyFunctionToProperty(currentMembers, name, makeUpperCase)
+const omitPastMembersPlays = omitProperty(pastMembers, 'plays')
+const addAllMembers = r.set(allMembers, [])
+const concatPastAndCurrentMembers = r.compose(concatLenses(allMembers, currentMembers), concatLenses(allMembers, pastMembers))
+const setAllMembers = r.compose(concatPastAndCurrentMembers, addAllMembers)
+const makeBandNameUpperCase = r.over(name, makeUpperCase)
+
+const modifications = [
+  upperCaseCurrentMemberNames,
+  omitPastMembersPlays,
+  makeBandNameUpperCase,
+  setAllMembers
 ]
 
-log('--------------------------------------------------------')
-log(r.compose(...mods)(band))
+// ooooh, shit! here comes the data:
+log(r.compose(...modifications)(band))
+log('*************original data was not modified*************')
