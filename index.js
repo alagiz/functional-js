@@ -37,16 +37,16 @@ const currentMembers = r.lensPath(['members', 'current'])
 const pastMembers = r.lensPath(['members', 'past'])
 const allMembers = r.lensPath(['members', 'all'])
 const upperCaseCurrentMemberNames = applyFunctionToProperty(currentMembers, name, makeUpperCase)
-const omitPastMembersPlays = omitProperty(pastMembers, 'plays')
+const omitPastMemberPlays = omitProperty(pastMembers, 'plays')
 const concatPastAndCurrentMembers = r.compose(concatLenses(allMembers, currentMembers), concatLenses(allMembers, pastMembers))
 const addAllMembers = r.set(allMembers, [])
-const setAllMembers = r.compose(concatPastAndCurrentMembers, addAllMembers)
-const setAllMemberNames = r.compose(extractProperty(allMembers, 'name'), setAllMembers)
+const getAllMembers = r.compose(concatPastAndCurrentMembers, addAllMembers)
+const setAllMemberNames = r.compose(extractProperty(allMembers, 'name'), getAllMembers)
 const makeBandNameUpperCase = r.over(name, makeUpperCase)
 
 const modifications = [
   upperCaseCurrentMemberNames,
-  omitPastMembersPlays,
+  omitPastMemberPlays,
   makeBandNameUpperCase,
   setAllMemberNames
 ]
