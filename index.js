@@ -19,14 +19,13 @@ const band = {
       plays: ['bench', 'dumbbels']
     }, {
       name: 'foxy brown',
-      plays: ['pianod', 'harp']
+      plays: ['piano', 'harp']
     }]
   }
 }
 
 const makeUpper = a => a.toUpperCase();
 const name = r.lensProp('name');
-const lowerName = r.compose(makeUpper, r.prop('name'))
 const currentMembers = r.lensPath(['members', 'current'])
 const previousMembers = r.lensPath(['members', 'past'])
 const upperCurrentMemberNames = r.over(currentMembers, r.map(r.over(name, makeUpper)))
