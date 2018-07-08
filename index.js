@@ -5,7 +5,7 @@ const band = {
   name: 'da best band',
   members: {
     current: [{
-      name: 'wee biscuit mcglee',
+      name: 'wet biscuit mcglee',
       plays: ['harmonica']
     }, {
       name: 'johnny deep',
@@ -24,12 +24,13 @@ const band = {
   }
 }
 
-// we'd very much like to separate behavior and data
-// defining behavior:
+// we'd very much like to separate behaviour and data
+// defining behaviour:
 const makeUpperCase = a => a.toUpperCase()
 const omitProperty = (lens, propName) => r.over(lens, r.map(r.omit(propName)))
 const applyFunctionToProperty = (lens, lensProp, func) => r.over(lens, r.map(r.over(lensProp, func)))
 const concatLenses = (target, src) => data => r.over(target, r.concat(r.view(src, data)))(data)
+const extractProperty = (lens, propName) => r.over(lens, r.map(r.prop(propName)))
 
 const name = r.lensProp('name')
 const currentMembers = r.lensPath(['members', 'current'])
@@ -37,16 +38,17 @@ const pastMembers = r.lensPath(['members', 'past'])
 const allMembers = r.lensPath(['members', 'all'])
 const upperCaseCurrentMemberNames = applyFunctionToProperty(currentMembers, name, makeUpperCase)
 const omitPastMembersPlays = omitProperty(pastMembers, 'plays')
-const addAllMembers = r.set(allMembers, [])
 const concatPastAndCurrentMembers = r.compose(concatLenses(allMembers, currentMembers), concatLenses(allMembers, pastMembers))
+const addAllMembers = r.set(allMembers, [])
 const setAllMembers = r.compose(concatPastAndCurrentMembers, addAllMembers)
+const setAllMemberNames = r.compose(extractProperty(allMembers, 'name'), setAllMembers)
 const makeBandNameUpperCase = r.over(name, makeUpperCase)
 
 const modifications = [
   upperCaseCurrentMemberNames,
   omitPastMembersPlays,
   makeBandNameUpperCase,
-  setAllMembers
+  setAllMemberNames
 ]
 
 // ooooh, shit! here comes the data:
