@@ -2,26 +2,18 @@ const log = require('./lib/log')
 const r = require('ramda')
 
 const band = {
-  name: 'da best band',
-  members: {
-    current: [{
-      name: 'wet biscuit mcglee',
-      plays: ['harmonica']
-    }, {
-      name: 'johnny deep',
-      plays: ['harmonica', 'guitar', 'hang drum']
-    }, {
-      name: 'robocop',
-      plays: ['instrument of murder', 'beeper']
-    }],
-    past: [{
-      name: 'pastor gains',
-      plays: ['bench', 'dumbbells']
-    }, {
-      name: 'foxy brown',
-      plays: ['piano', 'harp']
-    }]
-  }
+    name: 'tha best band',
+    members: {
+        current: [
+          { name: 'wet biscuit mcglee', plays: ['harmonica'] },
+          { name: 'johnny deep', plays: ['harmonica', 'guitar', 'hang drum'] },
+          { name: 'robocop', plays: ['instrument of murder', 'beeper'] }
+        ],
+        past: [
+          { name: 'pastor gains', plays: ['bench', 'dumbbells'] },
+          { name: 'foxy brown', plays: ['piano', 'harp'] }
+        ]
+    }
 }
 
 // we'd very much like to separate behaviour and data
