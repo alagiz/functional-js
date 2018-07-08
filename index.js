@@ -16,7 +16,7 @@ const band = {
     }],
     past: [{
       name: 'pastor gains',
-      plays: ['bench', 'dumbbels']
+      plays: ['bench', 'dumbbells']
     }, {
       name: 'foxy brown',
       plays: ['piano', 'harp']
