@@ -1,0 +1,25 @@
+{
+  "name": "alagiz-playground",
+  "version": "0.2.0",
+  "description": "Just a simple Javascript sandboxed environment for playing with toys in.",
+  "main": "index.js",
+  "scripts": {
+    "preversion": "npm test",
+    "start": "./node_modules/.bin/nodemon index.js -q -x",
+    "test:watch": "nodemon -q -e js -x 'npm test -s | tap-spec'",
+    "test": "tape test/*.js"
+  },
+  "author": "mista alagiz",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^4.11.0",
+    "eyes": "^0.1.8",
+    "nodemon": "^1.12.1",
+    "lodash": "^4.6.1",
+    "ramda": "^0.22.1"
+  },
+  "devDependencies": {
+    "tap-spec": "^4.1.1",
+    "tape": "^4.8.0"
+  }
+}
