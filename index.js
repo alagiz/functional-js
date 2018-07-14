@@ -18,13 +18,11 @@ const band = {
 
 // we'd very much like to separate behaviour and data
 // defining behaviour:
-const sumUp = (a, b) => a + b
 const makeUpperCase = a => a.toUpperCase()
 const omitProperty = (lens, propName) => r.over(lens, r.map(r.omit(propName)))
 const applyFunctionToProperty = (lens, lensProp, func) => r.over(lens, r.map(r.over(lensProp, func)))
 const concatLenses = (target, src) => data => r.over(target, r.concat(r.view(src, data)))(data)
 const extractProperty = (lens, propName) => r.over(lens, r.map(r.prop(propName)))
-const reducer = (reduceFunc, initValue) => r.reduce(reduceFunc, initValue)
 
 const name = r.lensProp('name')
 const currentMembers = r.lensPath(['members', 'current'])
@@ -32,7 +30,7 @@ const pastMembers = r.lensPath(['members', 'past'])
 const allMembers = r.lensPath(['members', 'all'])
 const ageSum = r.lensPath(['currentMembersAgeSum'])
 const allNamedRobocop = r.lensPath(['areAllCurrentMembersNamedRobocop'])
-const sumAll = reducer(sumUp, 0)
+const sumAll = r.reduce((a, b) => a + b, 0)
 const areAllNamedRobocop = r.reduce((a, b) => r.and(a, b === 'robocop'), true)
 const upperCaseCurrentMemberNames = applyFunctionToProperty(currentMembers, name, makeUpperCase)
 const omitPastMemberPlays = omitProperty(pastMembers, 'plays')
