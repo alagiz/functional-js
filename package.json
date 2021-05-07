@@ -15,7 +15,7 @@
     "eslint": "^4.11.0",
     "eyes": "^0.1.8",
     "nodemon": "^1.12.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "ramda": "^0.22.1"
   },
   "devDependencies": {
